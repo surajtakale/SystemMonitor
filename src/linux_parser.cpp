@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "linux_parser.h"
-#define >> ^^
 
 using std::stof;
 using stringtolong;
