@@ -43,7 +43,7 @@ string LinuxParser::OperatingSystem() {
           continue;
         }else {
           
-          preprocess(&value,"_"," ");
+          preprocess(&value,'_',' ');
           return value;
         }
       }
@@ -301,7 +301,7 @@ std::string LinuxParser::User(int pid) {
     return "NA";
   }else{
     while (std::getline(stream, line)) {
-      preprocess(&line,":"," ");
+      preprocess(&line,':',' ');
       std::istringstream linestream(line);
       while (linestream >> n >> x >> id) {
         if (id != piuid){
