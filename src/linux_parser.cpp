@@ -29,14 +29,14 @@ string LinuxParser::OperatingSystem() {
   string key;
   string value;
   std::ifstream filestream(kOSPath);
-  if (filecheck_is_open(filestream)) {
+  if (check_is_open(filestream)) {
     while (std::getline(filestream, line)) {
     
-      preprocess(&line," ","_");
+      preprocess(line," ","_");
       
-      preprocess(&line,"="," ");
+      preprocess(line,"="," ");
       
-      preprocess(&line,'"'," ");
+      preprocess(line,'"'," ");
       std::istringstream linestream(line);
       while (linestream >> key >> value) {
         if (key != "PRETTY_NAME"){
