@@ -7,43 +7,39 @@
 #include "process.h"
 #include "linux_parser.h"
 
-#include <iostream>
-
 using std::string;
 using std::to_string;
 using std::vector;
 
-Process::Process(int pid) {
-  pid_ = pid;
+Process::Process(int pid) : pid_(pid) {}
+
+int Process::Pid() const {
+  return pid_;
 }
 
-// Returning this process's ID
-int Process::Pid() const { return pid_; }
-
-// Returning this process's CPU utilization
 float Process::CpuUtilization() const {
-  float act_time = float(LinuxParser::ActiveJiffies(Pid()))/100.f;
-  float up_time = float(LinuxParser::UpTime(Pid()));
-  float util = act_time/up_time;
-  return float(util);
+  float act_time = static_cast<float>(LinuxParser::ActiveJiffies(Pid())) / 100.0f;
+  float up_time = static_cast<float>(LinuxParser::UpTime(Pid()));
+  float util = act_time / up_time;
+  return util;
 }
 
 string Process::Command() {
-    return LinuxParser::Command(Pid()); 
+  return LinuxParser::Command(Pid());
 }
 
 string Process::Ram() const {
-    return LinuxParser::Ram(Pid());
+  return LinuxParser::Ram(Pid());
 }
 
-string Process::User() { 
-    return LinuxParser::User(Pid()); 
+string Process::User() {
+  return LinuxParser::User(Pid());
 }
 
-long int Process::UpTime() { 
-    return LinuxParser::UpTime(Pid()); 
+long int Process::UpTime() {
+  return LinuxParser::UpTime(Pid());
 }
 
-bool Process::operator<(Process const& a) const { 
-    return stol(Ram()) < stol(a.Ram()); 
+bool Process::operator<(Process const& a) const {
+  return stol(Ram()) < stol(a.Ram());
 }

@@ -2,10 +2,9 @@
 
 #include "processor.h"
 
-// Returning the aggregate CPU utilization
 float Processor::Utilization() {
-  long t = LinuxParser::Jiffies();
-  long act = LinuxParser::ActiveJiffies();
-  float res = act * (1.f / t);
-  return res;
+  long totalJiffies = LinuxParser::Jiffies();
+  long activeJiffies = LinuxParser::ActiveJiffies();
+  float utilization = static_cast<float>(activeJiffies) / totalJiffies;
+  return utilization;
 }
