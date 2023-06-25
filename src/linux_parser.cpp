@@ -20,7 +20,7 @@ void preprocess(std::string line,std::string find,std::string replace){
   std::replace(line.begin(), line.end(), find, replace);
 }
 bool check_is_open(std::ifstream &r){
-  return r.is_open()  
+  return r.is_open(); 
 }
 
 // DONE: An example of how to read data from the filesystem
@@ -29,7 +29,7 @@ string LinuxParser::OperatingSystem() {
   string key;
   string value;
   std::ifstream filestream(kOSPath);
-  if (filecheck_is_open(stream)) {
+  if (filecheck_is_open(filestream)) {
     while (std::getline(filestream, line)) {
     
       preprocess(&line," ","_");
