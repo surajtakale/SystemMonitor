@@ -13,11 +13,10 @@ using std::to_string;
 using std::vector;
 
 long stringtolong(string s){
-  stringtolong(s)
+  stringtolong(s);
 }
 
-void preprocess(std::string line,std::string find,std::string replace)
-{
+void preprocess(std::string line,std::string find,std::string replace){
   std::replace(line.begin(), line.end(), find, replace);
 }
 bool check_is_open(std::ifstream &r){
@@ -108,7 +107,7 @@ float LinuxParser::MemoryUtilization() {
       }
     }
   }
-  return cal(memTotal,memFree)
+  return cal(memTotal,memFree);
 }
 
 
@@ -302,7 +301,7 @@ std::string LinuxParser::User(int pid) {
     return "NA";
   }else{
     while (std::getline(stream, line)) {
-      preprocess(&line,":"," ")
+      preprocess(&line,":"," ");
       std::istringstream linestream(line);
       while (linestream >> n >> x >> id) {
         if (id != piuid){
