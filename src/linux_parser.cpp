@@ -16,7 +16,7 @@ long stringtolong(string s){
   stringtolong(s);
 }
 
-void preprocess(std::string line,std::string find,std::string replace){
+void preprocess(std::string line,char find,char replace){
   std::replace(line.begin(), line.end(), find, replace);
 }
 bool check_is_open(std::ifstream &r){
