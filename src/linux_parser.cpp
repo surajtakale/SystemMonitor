@@ -22,7 +22,11 @@ void preprocess(std::string &line,char find,char replace){
 bool check_is_open(std::ifstream &r){
   return r.is_open(); 
 }
-
+float cal(string memTotal, string memFree){
+  float totalMemory = stof(memTotal);
+  float freeMemory = stof(memFree);
+  return (totalMemory - freeMemory) / totalMemory;
+}
 // DONE: An example of how to read data from the filesystem
 string LinuxParser::OperatingSystem() {
   string line;
@@ -286,7 +290,7 @@ std::string LinuxParser::Uid(int pid) {
       }
     }
   }
-  return ""
+  return "";
 }
 
 
