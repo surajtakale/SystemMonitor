@@ -34,6 +34,9 @@ bool check_is_open(ifstream &input){
 float string_to_float(string str){
   return stof(str);
 }
+string_to_long string_to_long(string str){
+  return stol(str);
+}
 
 string LinuxParser::OperatingSystem() {
   string line;
@@ -121,7 +124,7 @@ long LinuxParser::UpTime() {
     istringstream linestream(line);
     linestream >> uptime;
   }
-  return stol(uptime);
+  return string_to_long(uptime);
 }
 
 // Read and return the number of jiffies for the system
@@ -131,7 +134,7 @@ long LinuxParser::Jiffies() {
   long total = 0;
   vector<CPUStates> all = {kUser_, kNice_, kSystem_, kIdle_, kIOwait_, kIRQ_, kSoftIRQ_, kSteal_};
   for (int i : all) { // All non-guest values
-    valueslong[i] = stol(values[i]);
+    valueslong[i] = string_to_long(values[i]);
     total += valueslong[i];
   };
   return total;
@@ -149,21 +152,21 @@ long LinuxParser::ActiveJiffies(int pid) {
       values.push_back(value);
     }
   }
-  return stol(values[13] + values[14]);
+  return string_to_long(values[13] + values[14]);
 }
 
 // Read and return the number of active jiffies for the system
 long LinuxParser::ActiveJiffies() {
   vector<string> jiffies = CpuUtilization();
-  return stol(jiffies[CPUStates::kUser_]) + stol(jiffies[CPUStates::kNice_]) +
-         stol(jiffies[CPUStates::kSystem_]) + stol(jiffies[CPUStates::kIRQ_]) +
-         stol(jiffies[CPUStates::kSoftIRQ_]) + stol(jiffies[CPUStates::kSteal_]);
+  return string_to_long(jiffies[CPUStates::kUser_]) + string_to_long(jiffies[CPUStates::kNice_]) +
+         string_to_long(jiffies[CPUStates::kSystem_]) + string_to_long(jiffies[CPUStates::kIRQ_]) +
+         string_to_long(jiffies[CPUStates::kSoftIRQ_]) + string_to_long(jiffies[CPUStates::kSteal_]);
 }
 
 // Read and return the number of idle jiffies for the system
 long LinuxParser::IdleJiffies() {
   vector<string> jiffies = CpuUtilization();
-  return stol(jiffies[CPUStates::kIdle_]) + stol(jiffies[CPUStates::kIOwait_]);
+  return string_to_long(jiffies[CPUStates::kIdle_]) + string_to_long(jiffies[CPUStates::kIOwait_]);
 }
 
 // Read and return CPU utilization
@@ -243,7 +246,7 @@ string LinuxParser::Ram(int pid) {
       while (linestream >> key) {
         if (key == "VmSize:") {
           linestream >> value;
-          return to_string(stol(value) / 1024);
+          return to_string(string_to_long(value) / 1024);
         }
       }
     }
@@ -300,5 +303,5 @@ long LinuxParser::UpTime(int pid) {
       values.push_back(value);
     };
   }
-  return LinuxParser::UpTime() - (stol(values[21]) / 100);
+  return LinuxParser::UpTime() - (string_to_long(values[21]) / 100);
 }
