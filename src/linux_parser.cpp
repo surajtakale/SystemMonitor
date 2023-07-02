@@ -62,11 +62,11 @@ string LinuxParser::OperatingSystem() {
 
 // Read and return the Kernel version from the filesystem
 string LinuxParser::Kernel() {
-  string os, version, kernel;
-  string line;
+  string os, v, k,l;
+  // string l;
   ifstream stream(kProcDirectory + kVersionFilename);
-  if (check_is_open(stream)) {getline(stream, line);istringstream linestream(line);linestream >> os >> version >> kernel;}
-  return kernel;
+  if (check_is_open(stream)) {getline(stream, l);istringstream linestream(line);linestream >> os >> v >> k;}
+  return k;
 }
 
 vector<int> LinuxParser::Pids() {
@@ -233,30 +233,15 @@ string LinuxParser::Ram(int pid) {
 
 // Read and return the user ID associated with a process
 string LinuxParser::Uid(int pid) {
-  string line;
-  string key;
-  string value;
+  string l,k,v;
   ifstream stream(kProcDirectory + to_string(pid) + kStatusFilename);
-  if (check_is_open(stream)) {
-    while (getline(stream, line)) {
-      istringstream linestream(line);
-      while (linestream >> key >> value) {if (key == UID) {return value;}}
-    }
-  }
-  return "-1";
-}
+  if (check_is_open(stream)) {while (getline(stream, l)) {istringstream linestream(l);while (linestream >> k >> v) {if (k == UID) {return v;}}}}return "-1";}
 
 string LinuxParser::User(int pid) {
   string line;
   string name, x, uid;
   ifstream stream(kPasswordPath);
-  if (check_is_open(stream)) {
-    while (getline(stream, line)) {
-      std::replace(line.begin(), line.end(), ':', SPACE);
-      istringstream linestream(line);
-      while (linestream >> name >> x >> uid) {if (uid == LinuxParser::Uid(pid)) {return name;}}
-    }
-  }
+  if (check_is_open(stream)) {while (getline(stream, line)) {std::replace(line.begin(), line.end(), ':', SPACE);istringstream linestream(line);while (linestream >> name >> x >> uid) {if (uid == LinuxParser::Uid(pid)) {return name;}}}}
   return "NA"; }
 
 long LinuxParser::UpTime(int pid) {
