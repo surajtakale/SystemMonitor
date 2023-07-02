@@ -63,7 +63,7 @@ string LinuxParser::Kernel() {
   string os, v, k,l;
   // string l;
   ifstream stream(kProcDirectory + kVersionFilename);
-  if (check_is_open(stream)) {getline(stream, l);istringstream linestream(line);linestream >> os >> v >> k;}
+  if (check_is_open(stream)) {getline(stream, l);istringstream linestream(l);linestream >> os >> v >> k;}
   return k;
 }
 
@@ -99,7 +99,7 @@ float LinuxParser::MemoryUtilization() {
   if (check_is_open(stream)) {
     while (getline(stream, l)) {
       istringstream linestream(l);
-      while (linestream >> key >> v) {
+      while (linestream >> k >> v) {
         if (k == MEMTOTAL) {mtotal = v;}
         if (k == MEMFREE) {mfree = v;}
       }
