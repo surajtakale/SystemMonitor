@@ -5,7 +5,7 @@
 
 #include "linux_parser.h"
 
-using std::stof;
+using std::string_to_float;
 using std::stol;
 using std::stoi;
 using std::string;
@@ -30,6 +30,9 @@ bool check_is_open(ifstream &input){
     return true;
   }
   return false;
+}
+float string_to_float(string str){
+  return stof(str);
 }
 
 string LinuxParser::OperatingSystem() {
@@ -100,16 +103,12 @@ float LinuxParser::MemoryUtilization() {
     while (getline(stream, line)) {
       istringstream linestream(line);
       while (linestream >> key >> value) {
-        if (key == MEMTOTAL) {
-          mtotal = value;
-        }
-        if (key == MEMFREE) {
-          mfree = value;
-        }
+        if (key == MEMTOTAL) {mtotal = value;}
+        if (key == MEMFREE) {mfree = value;}
       }
     }
   }
-  return (stof(mtotal)-stof(mfree)) / stof(mtotal);
+  return (string_to_float(mtotal)-string_to_float(mfree)) / string_to_float(mtotal);
 }
 
 // Read and return the system uptime
