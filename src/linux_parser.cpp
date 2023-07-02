@@ -50,9 +50,7 @@ string LinuxParser::OperatingSystem() {
   ifstream filestream(kOSPath);
   if (check_is_open(filestream)) {
     while (getline(filestream, line)) {
-      replace(line.begin(), line.end(), SPACE, UNDERSCORE);
-      replace(line.begin(), line.end(), EQUALS, SPACE);
-      replace(line.begin(), line.end(), DOUBLEQUOT, SPACE);
+      replace(line.begin(), line.end(), SPACE, UNDERSCORE);replace(line.begin(), line.end(), EQUALS, SPACE);replace(line.begin(), line.end(), DOUBLEQUOT, SPACE);
       istringstream linestream(line);
       while (linestream >> key >> value) {if (key == PRETTYNAME) {replace(value.begin(), value.end(), UNDERSCORE, SPACE);return value;}}
     }
@@ -76,10 +74,7 @@ vector<int> LinuxParser::Pids() {
   while ((file = readdir(directory)) != nullptr) {
     if ((*file).d_type == DT_DIR) {
       string filename((*file).d_name);
-      if (all_of(filename.begin(), filename.end(), isdigit)) {
-        int pid = stoi(filename);
-        pids.push_back(pid);
-      }
+      if (all_of(filename.begin(), filename.end(), isdigit)) {int pid = stoi(filename);pids.push_back(pid);}
     }
   }
   closedir(directory);
@@ -92,27 +87,21 @@ long LinuxParser::UpTime() {
   string uptime;
   string line;
   ifstream stream(kProcDirectory + kUptimeFilename);
-  if (check_is_open(stream)) {
-    getline(stream, line);
-    istringstream linestream(line);
-    linestream >> uptime;
-  }
+  if (check_is_open(stream)) {getline(stream, line);istringstream linestream(line);linestream >> uptime;}
   return string_to_long(uptime);
 }
 
 float LinuxParser::MemoryUtilization() {
-  string line;
-  string key;
-  string value;
-  string mtotal;
-  string mfree;
+  string l;
+  string k;
+  string v,mtotal,mfree;
   ifstream stream(kProcDirectory + kMeminfoFilename);
   if (check_is_open(stream)) {
-    while (getline(stream, line)) {
-      istringstream linestream(line);
-      while (linestream >> key >> value) {
-        if (key == MEMTOTAL) {mtotal = value;}
-        if (key == MEMFREE) {mfree = value;}
+    while (getline(stream, l)) {
+      istringstream linestream(l);
+      while (linestream >> key >> v) {
+        if (k == MEMTOTAL) {mtotal = v;}
+        if (k == MEMFREE) {mfree = v;}
       }
     }
   }
@@ -124,13 +113,13 @@ float LinuxParser::MemoryUtilization() {
 
 // Read and return the number of active jiffies for a PID
 long LinuxParser::ActiveJiffies(int pid) {
-  string line, value;
+  string line, v;
   vector<string> values;
   ifstream stream(kProcDirectory + to_string(pid) + kStatFilename);
   if (check_is_open(stream)) {
     getline(stream, line);
     istringstream linestream(line);
-    while (linestream >> value) {values.push_back(value);}
+    while (linestream >> v) {values.push_back(v);}
   }
   return string_to_long(values[13] + values[14]);
 }
