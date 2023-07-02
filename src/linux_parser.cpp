@@ -71,14 +71,8 @@ vector<int> LinuxParser::Pids() {
   vector<int> pids;
   DIR* directory = opendir(kProcDirectory.c_str());
   struct dirent* file;
-  while ((file = readdir(directory)) != nullptr) {
-    if ((*file).d_type == DT_DIR) {
-      string fn((*file).d_name);
-      if (all_of(fn.begin(), fn.end(), isdigit)) {int pid = stoi(fn);pids.push_back(pid);}
-    }
-  }
-  closedir(directory);
-  return pids;
+  while ((file = readdir(directory)) != nullptr) {if ((*file).d_type == DT_DIR) {string fn((*file).d_name);if (all_of(fn.begin(), fn.end(), isdigit)) {int pid = stoi(fn);pids.push_back(pid);}}}
+    closedir(directory);return pids;
 }
 
 
