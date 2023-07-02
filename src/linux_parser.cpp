@@ -12,7 +12,7 @@ using std::string;
 using std::to_string;
 using std::vector;
 
-bool check_is_open(std::ifstream input){
+bool check_is_open(std::ifstream &input){
   if(input.is_open()){
     return true;
   }
