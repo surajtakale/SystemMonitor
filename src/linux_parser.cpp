@@ -11,6 +11,8 @@ using std::stoi;
 using std::string;
 using std::to_string;
 using std::vector;
+using std::string;
+using std::all_of;
 
 bool check_is_open(std::ifstream &input){
   if(input.is_open()){
@@ -18,6 +20,7 @@ bool check_is_open(std::ifstream &input){
   }
   return false;
 }
+// void string_replace(std::string &s1, const std::string &s2,)
 
 // Read and return the name of the Operating System from the filesystem
 string LinuxParser::OperatingSystem() {
@@ -27,13 +30,13 @@ string LinuxParser::OperatingSystem() {
   std::ifstream filestream(kOSPath);
   if (check_is_open(filestream)) {
     while (std::getline(filestream, line)) {
-      std::replace(line.begin(), line.end(), ' ', '_');
-      std::replace(line.begin(), line.end(), '=', ' ');
-      std::replace(line.begin(), line.end(), '"', ' ');
-      std::istringstream linestream(line);
+      replace(line.begin(), line.end(), ' ', '_');
+      replace(line.begin(), line.end(), '=', ' ');
+      replace(line.begin(), line.end(), '"', ' ');
+      istringstream linestream(line);
       while (linestream >> key >> value) {
         if (key == "PRETTY_NAME") {
-          std::replace(value.begin(), value.end(), '_', ' ');
+          replace(value.begin(), value.end(), '_', ' ');
           return value;
         }
       }
@@ -62,10 +65,10 @@ vector<int> LinuxParser::Pids() {
   struct dirent* file;
   while ((file = readdir(directory)) != nullptr) {
     // Is this a directory?
-    if (file->d_type == DT_DIR) {
+    if ((*file).d_type == DT_DIR) {
       // Is every character of the name a digit?
-      string filename(file->d_name);
-      if (std::all_of(filename.begin(), filename.end(), isdigit)) {
+      string filename((*file).d_name);
+      if (all_of(filename.begin(), filename.end(), isdigit)) {
         int pid = stoi(filename);
         pids.push_back(pid);
       }
