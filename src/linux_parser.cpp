@@ -13,6 +13,7 @@ using std::to_string;
 using std::vector;
 using std::string;
 using std::all_of;
+using std::istringstream;
 
 bool check_is_open(std::ifstream &input){
   if(input.is_open()){
