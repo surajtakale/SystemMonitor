@@ -5,7 +5,7 @@
 
 #include "linux_parser.h"
 
-using std::string_to_float;
+using std::stof;
 using std::stol;
 using std::stoi;
 using std::string;
