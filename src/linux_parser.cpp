@@ -73,8 +73,8 @@ vector<int> LinuxParser::Pids() {
   struct dirent* file;
   while ((file = readdir(directory)) != nullptr) {
     if ((*file).d_type == DT_DIR) {
-      string filename((*file).d_name);
-      if (all_of(filename.begin(), filename.end(), isdigit)) {int pid = stoi(filename);pids.push_back(pid);}
+      string fn((*file).d_name);
+      if (all_of(fn.begin(), fn.end(), isdigit)) {int pid = stoi(fn);pids.push_back(pid);}
     }
   }
   closedir(directory);
