@@ -39,7 +39,7 @@ bool check_is_open(ifstream &input){
 float string_to_float(string str){
   return stof(str);
 }
-string_to_long string_to_long(string str){
+long string_to_long(string str){
   return stol(str);
 }
 
